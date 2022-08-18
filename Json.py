@@ -19,6 +19,7 @@ class Json:
         return self.params
 
     def returnJson(self,image):
+        image=encode64(np.asarray(image))
         for i in range(0, len(self.request)):
             return json.dumps({"capsules": [{"name":self.request[i]["name"],"uID": self.request[i]["uID"],"outputs":{"image": {"imageType": self.request[i]["inputs"]["image"]["imageType"],"imageData":image }}}]})
 
