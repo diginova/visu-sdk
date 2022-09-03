@@ -1,17 +1,18 @@
 import json
-from sdks.visu.base64 import encode64
+from sdks.visu.Image.base64 import encode64,decode64
 import numpy as np
 
-class Json:
+class JsonParser:
     def __init__(self,json_data):
         self.jsondata = json.loads(json_data)
-        self.request = self.jsondata["capsules"]
+        self.request = self.jsondata["components"]
 
-    def image(self):
+    def getimage(self):
         for i in range(0, len(self.request)):
             self.imageData = self.request[i]["inputs"]["image"]
         if self.imageData["imageType"] == "Base64":
-            return self.imageData["imageData"]
+            self.image = np.asarray(decode64(self.imageData["imageData"])).astype(np.uint8)
+            return self.image
 
     def params(self):
         for i in range(0, len(self.request)):
@@ -21,5 +22,5 @@ class Json:
     def returnJson(self,image):
         image=encode64(np.asarray(image))
         for i in range(0, len(self.request)):
-            return json.dumps({"capsules": [{"name":self.request[i]["name"],"uID": self.request[i]["uID"],"outputs":{"image": {"imageType": self.request[i]["inputs"]["image"]["imageType"],"imageData":image }}}]})
+            return json.dumps({"components": [{"name":self.request[i]["name"],"uID": self.request[i]["uID"],"outputs":{"image": {"imageType": self.request[i]["inputs"]["image"]["imageType"],"imageData":image }}}]})
 
