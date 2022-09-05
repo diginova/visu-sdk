@@ -12,12 +12,14 @@ class Request:
         self.Component = ""
 
     def __Index(self):
+        print(self.Component)
         self.ComponentIndex = next(
             (index for (index, d) in enumerate(self.model.dict()["components"]) if d['name'] == self.Component), None)
         return self.ComponentIndex
 
     def getImage(self, component):
         self.Component = component
+       
         return np.asarray(decode64(self.model.components[self.__Index()].inputs.image.imageData)).astype(np.uint8)
 
     def getParam(self, component):
@@ -28,7 +30,6 @@ class Request:
     def get(self, component, *args):
         self.Component = component
         returnData= {"component":self.Component}
-        print(self.Component)
         for item in args:
             if item=="name":
                 returnData[item]=self.model.components[self.__Index()].name
@@ -38,4 +39,6 @@ class Request:
                 returnData[item] = np.asarray(decode64(self.model.components[self.__Index()].inputs.image.imageData)).astype(np.uint8)
             if item == "params":
                 returnData[item] = self.model.components[self.__Index()].params
+            if item == "imageType":
+                returnData[item] = self.model.components[self.__Index()].inputs.image.imageType
         return returnData
