@@ -9,7 +9,7 @@ class Request:
     def __init__(self, jsondata):
         self.data = json.loads(jsondata)
         self.model = ""
-        self.Component = ""
+        self.component = ""
 
     def __Index(self):
         self.ComponentIndex = next(
@@ -21,6 +21,10 @@ class Request:
 
     def getParam(self):
         return self.model.components[self.__Index()].params
+
+    def getuID(self):
+        return self.model.components[self.__Index()].inputs.image.imageType
+
 
 
     def get(self, *args):
