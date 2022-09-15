@@ -2,7 +2,8 @@ from typing import List
 from pydantic import BaseModel, ValidationError
 
 class Model(BaseModel):
-    def __init__(self,data):
-        super().__init__(**data)
+    def new(cls, *args, **kwargs):
+        cls.new = super().new
+        return super().construct()
     
     

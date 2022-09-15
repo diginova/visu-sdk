@@ -5,12 +5,15 @@ import numpy as np
 from sdks.visu.base.Request import Request
 
 class Response:
-    def __init__(self,request,image):
+    def __init__(self,image , request , ResponseModel):
         self.request = request
-        self.image=image
-        
+        self.image = np.asarray(image).astype(np.float32)
+        self.ResponseModel=ResponseModel
+
+
     def response(self):
-        self.image = encode64(np.asarray(self.image))
-        self.data=self.request.get(self.request.Component,"name","uID","imageType")
-        return json.dumps({"components": [{"name": self.data["name"], "uID": self.data["uID"], "outputs": {
-            "image": {"imageType": self.data["imageType"], "imageData": self.image}}}]})
+        self.data=self.request.get("name","uID","imageType")
+        data=(json.dumps({"components": [{"name": self.data["name"], "uID": self.data["uID"], "outputs": {
+            "image": {"imageType": self.data["imageType"], "imageData": encode64(self.image)}}}]}))
+        data=json.loads(data)
+        return self.ResponseModel(**data).dict()
