@@ -8,7 +8,7 @@ setuptools.setup(
     description="VISU SDK",
     url='https://github.com/diginova/visu-sdk',
     license='MIT',
-    install_requires=['numpy'],
+    install_requires=['pydantic'],
 
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -16,7 +16,12 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
 
-    packages=['visu'],
+    packages=[
+        'visu',
+        'visu.base',
+        'visu.helper',
+        'visu.media'
+    ],
     package_dir={'visu': 'src'},
     python_requires=">=3.6"
 )
