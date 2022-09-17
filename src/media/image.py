@@ -11,15 +11,25 @@ class Image:
         self.image = []
 
     def get_img(self, inputs=None):
-        new = Image()
-        new.image = list((np.asarray(self.decode64(inputs.image.image_data[0])).astype(np.uint8)))
-        new.image_type = inputs.image.mime_type
-        list_obj = []
-        list_obj.append(new)
-        print(list_obj)
-        return list_obj
+        if inputs.type =="image":
+            image = Image()
+            image.image = list((np.asarray(self.decode64(inputs.image.image_data[0])).astype(np.uint8)))
+            image.image_type = inputs.image.mime_type
+            list_obj = []
+            list_obj.append(image)
+            return list_obj
+        elif inputs.type =="image_list":
+            list_obj = []
+            for i in range(0,len(inputs.image.image_data)):
+                image  = Image()
+                image.image = list((np.asarray(self.decode64(inputs.image.image_data[i])).astype(np.uint8)))
+                image.image_type = inputs.image.mime_type
+                list_obj.append(image)
+            return list_obj
+
 
     def encode64(self, image):
+
         bin = cv2.imencode('.jpg', image)[1]
         data = str(base64.b64encode(bin), "utf-8")
         return data

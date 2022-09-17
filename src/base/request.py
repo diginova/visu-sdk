@@ -2,9 +2,9 @@
 
 import json
 import numpy as np
-from visu.base.model import Model
-from visu.media.image import Image
-from visu.helper.base64 import Base64
+from sdks.visu.src.base.model import Model
+from sdks.visu.src.media.image import Image
+from sdks.visu.src.media.image import Image
 
 
 class Request:
@@ -33,7 +33,7 @@ class Request:
             if item == "uID":
                 returnData[item] = self.model.uID
             if item == "image":
-                returnData[item] = np.asarray(Base64.decode64(self.model.inputs.image.image_data)).astype(np.uint8)
+                returnData[item] = np.asarray(Image.decode64(self.model.inputs.image.image_data)).astype(np.uint8)
             if item == "params":
                 returnData[item] = self.model.params
             if item == "imageType":
