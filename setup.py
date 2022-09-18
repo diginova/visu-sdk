@@ -17,11 +17,11 @@ setuptools.setup(
     ],
 
     packages=[
-        'visu',
-        'visu.base',
-        'visu.helper',
-        'visu.media'
+        'visu.sdk',
+        'visu.sdk.base',
+        'visu.sdk.helper',
+        'visu.sdk.media'
     ],
-    package_dir={'visu': 'src'},
+    package_dir={'visu.sdk': 'src'},
     python_requires=">=3.6"
 )
