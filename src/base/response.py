@@ -2,7 +2,7 @@
 
 import json
 import numpy as np
-from sdks.visu.src.media.image import Image
+from visu.sdk.media.image import Image
 
 
 class Response:
