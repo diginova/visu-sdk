@@ -2,9 +2,9 @@
 
 import json
 import numpy as np
-from visu.base.model import Model
-from visu.media.image import Image
-from visu.helper.base64 import Base64
+from visu.sdk.base.model import Model
+from visu.sdk.media.image import Image
+from visu.sdk.helper.base64 import Base64
 
 
 class Request:

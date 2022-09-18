@@ -2,7 +2,7 @@
 
 import json
 import numpy as np
-from visu.Image.base64 import encode64, decode64
+from visu.sdk.helper.base64 import encode64, decode64
 
 
 
