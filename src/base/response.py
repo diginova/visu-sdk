@@ -2,7 +2,8 @@
 
 import json
 import numpy as np
-from visu.sdk.media.image import Image
+from sdks.visu.src.media.image import Image
+import cv2
 
 
 class Response:
@@ -14,11 +15,25 @@ class Response:
 
     def response(self):
         list = []
-        for i in range(0,len(self.image)):
-            list.append( Image().encode64(np.asarray(self.image[i].image).astype(np.float32)))
-            mime_type=self.image[i].image_type
-        self.data = self.request.get("name", "uID", "imageType")
-        data = (json.dumps({"components": [{"name": self.data["name"], "uID": self.data["uID"], "outputs": \
-            {"type": self.request.model.inputs.type,"image": {"mime_type": mime_type, "image_data":list }}}]}))
-        data = json.loads(data)
-        return self.ResponseModel(**data).dict()
+        if self.request.model.inputs.type == "image" or self.request.model.inputs.type =="image_list":
+            for i in range(0,len(self.image)):
+                list.append( Image().encode64(np.asarray(self.image[i].image).astype(np.float32)))
+                self.mime_type=self.image[i].image_type
+            self.data = self.request.get("name", "uID", "imageType")
+            data = (json.dumps({"components": [{"name": self.data["name"], "uID": self.data["uID"], "outputs": \
+                {"type": self.request.model.inputs.type,"image": {"mime_type":   self.mime_type, "image_data":list }}}]}))
+            data = json.loads(data)
+            return self.ResponseModel(**data).dict()
+        elif self.request.model.inputs.type == "url":
+            url_list=[]
+            url_list.append(self.request.model.inputs.image.image_data[0])
+            for i in range(0, len(self.image)):
+                writeImage = self.request.model.inputs.image.image_data[0] + "/" "changed"+ str(i) +"."+ str(self.image[i].image_type)
+                print(writeImage)
+                cv2.imwrite(writeImage, np.asarray(self.image[i].image))
+                self.mime_type = self.image[i].image_type
+                self.data = self.request.get("name", "uID", "imageType")
+            data = (json.dumps({"components": [{"name": self.data["name"], "uID": self.data["uID"], "outputs": \
+                {"type": self.request.model.inputs.type, "image": {"mime_type": self.mime_type, "image_data": url_list}}}]}))
+            data = json.loads(data)
+            return self.ResponseModel(**data).dict()

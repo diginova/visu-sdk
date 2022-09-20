@@ -3,8 +3,8 @@
 import json
 import numpy as np
 from visu.sdk.base.model import Model
-from visu.sdk.media.image import Image
-from visu.sdk.helper.base64 import Base64
+from sdks.visu.src.media.image import Image
+
 
 
 class Request:
@@ -19,6 +19,7 @@ class Request:
 
     def get_image(self):
         new = Image()
+        print(new.image_type)
         self.image = new.get_img(inputs=self.model.inputs)
         return self.image
 

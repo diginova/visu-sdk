@@ -3,26 +3,35 @@
 import cv2
 import base64
 import numpy as np
-
+import os
 
 class Image:
     def __init__(self):
         self.image_type = ""
         self.image = []
 
+
     def get_img(self, inputs=None):
+        print("deneme")
+        list_obj = []
         if inputs.type =="image":
             image = Image()
             image.image = list((np.asarray(self.decode64(inputs.image.image_data[0])).astype(np.uint8)))
             image.image_type = inputs.image.mime_type
-            list_obj = []
             list_obj.append(image)
             return list_obj
         elif inputs.type =="image_list":
-            list_obj = []
             for i in range(0,len(inputs.image.image_data)):
                 image  = Image()
                 image.image = list((np.asarray(self.decode64(inputs.image.image_data[i])).astype(np.uint8)))
+                image.image_type = inputs.image.mime_type
+                list_obj.append(image)
+            return list_obj
+        elif inputs.type == "url":
+            print(os.listdir(r"/opt/project/components/PreAddNoise/resources"))
+            for i in os.listdir(str(inputs.image.image_data[0])):
+                image = Image()
+                image.image = np.asarray(cv2.imread(str(inputs.image.image_data[0])+"/"+i))
                 image.image_type = inputs.image.mime_type
                 list_obj.append(image)
             return list_obj
