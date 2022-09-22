@@ -19,7 +19,6 @@ class Request:
 
     def get_image(self):
         new = Image()
-        print(new.image_type)
         self.image = new.get_img(inputs=self.model.inputs)
         return self.image
 

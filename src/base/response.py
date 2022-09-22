@@ -15,9 +15,9 @@ class Response:
 
     def response(self):
         list = []
-        if self.request.model.inputs.type == "image" or self.request.model.inputs.type =="image_list":
+        if self.request.model.inputs.type == "image" or self.request.model.inputs.type =="image_list"or self.request.model.inputs.type =="path":
             for i in range(0,len(self.image)):
-                list.append( Image().encode64(np.asarray(self.image[i].image).astype(np.float32)))
+                list.append( Image().encode64(np.asarray(self.image[i].image).astype(np.float32), self.image[i].image_type))
                 self.mime_type=self.image[i].image_type
             self.data = self.request.get("name", "uID", "imageType")
             data = (json.dumps({"components": [{"name": self.data["name"], "uID": self.data["uID"], "outputs": \
@@ -29,7 +29,6 @@ class Response:
             url_list.append(self.request.model.inputs.image.image_data[0])
             for i in range(0, len(self.image)):
                 writeImage = self.request.model.inputs.image.image_data[0] + "/" "changed"+ str(i) +"."+ str(self.image[i].image_type)
-                print(writeImage)
                 cv2.imwrite(writeImage, np.asarray(self.image[i].image))
                 self.mime_type = self.image[i].image_type
                 self.data = self.request.get("name", "uID", "imageType")
