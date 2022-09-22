@@ -19,7 +19,6 @@ setuptools.setup(
     packages=[
         'visu.sdk',
         'visu.sdk.base',
-        'visu.sdk.helper',
         'visu.sdk.media'
     ],
     package_dir={'visu.sdk': 'src'},
