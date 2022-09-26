@@ -12,27 +12,30 @@ class Image:
 
 
     def get_img(self, inputs=None):
-        list_obj = []
-        if inputs.type =="image":
-            image = Image()
-            image.image = list((np.asarray(self.decode64(inputs.image.image_data[0])).astype(np.uint8)))
-            image.image_type = inputs.image.mime_type
-            list_obj.append(image)
-            return list_obj
-        elif inputs.type =="image_list":
-            for i in range(0,len(inputs.image.image_data)):
-                image  = Image()
-                image.image = list((np.asarray(self.decode64(inputs.image.image_data[i])).astype(np.uint8)))
-                image.image_type = inputs.image.mime_type
-                list_obj.append(image)
-            return list_obj
-        elif inputs.type == "path":
-            for i in os.listdir(str(inputs.image.image_data[0])):
+        try:
+            list_obj = []
+            if inputs.type =="image":
                 image = Image()
-                image.image = np.asarray(cv2.imread(str(inputs.image.image_data[0])+"/"+i))
+                image.image = list((np.asarray(self.decode64(inputs.image.image_data[0])).astype(np.uint8)))
                 image.image_type = inputs.image.mime_type
                 list_obj.append(image)
-            return list_obj
+                return list_obj
+            elif inputs.type =="image_list":
+                for i in range(0,len(inputs.image.image_data)):
+                    image  = Image()
+                    image.image = list((np.asarray(self.decode64(inputs.image.image_data[i])).astype(np.uint8)))
+                    image.image_type = inputs.image.mime_type
+                    list_obj.append(image)
+                return list_obj
+            elif inputs.type == "path":
+                for i in os.listdir(str(inputs.image.image_data[0])):
+                    image = Image()
+                    image.image = np.asarray(cv2.imread(str(inputs.image.image_data[0])+"/"+i))
+                    image.image_type = inputs.image.mime_type
+                    list_obj.append(image)
+                return list_obj
+        except FileNotFoundError:
+            return {"error","hata3"}
 
 
     def encode64(self, image,mime_type):

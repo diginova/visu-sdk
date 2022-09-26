@@ -10,16 +10,26 @@ from sdks.visu.src.media.image import Image
 class Request:
 
     def __init__(self, json_data, component):
-        self.component = component
-        self.json_data = json.loads(json_data)
-        self.data = self.json_data["components"][next(
-            (index for (index, d) in enumerate(self.json_data["components"]) if d['name'] == self.component), None)]
-        self.model = ""
-        self.image = []
+        try:
+            self.component = component
+            self.json_data = json.loads(json_data)
+            self.data = self._index(json_data=self.json_data,component=self.component)
+            self.model = ""
+            self.image = []
+        except TypeError as e:
+            print("error",e)
+
+    def _index(self,json_data,component):
+        return self.json_data["components"][next(
+                    (index for (index, d) in enumerate(json_data["components"]) if d['name'] == component), None)]
 
     def get_image(self):
         new = Image()
         self.image = new.get_img(inputs=self.model.inputs)
+        print(self.image)
+        if self.image==None:
+            return {"error":"Image error"}
+        print(self.image)
         return self.image
 
     def get_param(self):
