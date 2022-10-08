@@ -32,6 +32,9 @@ class Input(Model):
     name: str
     type: str
     data: str
+class Param(Model):
+    name: str
+    value: str
 
 class RequestModel(Model):
     type: str
