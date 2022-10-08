@@ -1,42 +1,41 @@
 # -*- coding: utf-8 -*-
 
-import json
-import numpy as np
-from visu.sdk.base.model import Model
-from sdks.visu.src.media.image import Image
 
+from visu.sdk.media.image import Image
 
 
 class Request:
 
-    def __init__(self, json_data, component):
-        self.component = component
-        self.json_data = json.loads(json_data)
-        self.data = self.json_data["components"][next(
-            (index for (index, d) in enumerate(self.json_data["components"]) if d['name'] == self.component), None)]
-        self.model = ""
-        self.image = []
+    def __init__(self, json_data):
+        try:
+            self.data = json_data
+            self.model = ""
+            self.image = []
+        except TypeError as e:
+            print("error",e)
 
-    def get_image(self):
+
+    def get_inputs(self):
         new = Image()
-        print(new.image_type)
-        self.image = new.get_img(inputs=self.model.inputs)
+        self.image = new.get_inputs(inputs=self.model.inputs)
+        if self.image==None:
+            return {"error":"Image error"}
         return self.image
 
-    def get_param(self):
-        return self.model.params
 
-    def get(self, *args):
-        returnData= {"component":self.component}
-        for item in args:
-            if item == "name":
-                returnData[item]=self.model.name
-            if item == "uID":
-                returnData[item] = self.model.uID
-            if item == "image":
-                returnData[item] = np.asarray(Image.decode64(self.model.inputs.image.image_data)).astype(np.uint8)
-            if item == "params":
-                returnData[item] = self.model.params
-            if item == "imageType":
-                returnData[item] = self.model.inputs.image.mime_type
-        return returnData
+    def get_input(self,name):
+        return [inp for inp in self.model.inputs if name in inp.name][0]
+
+
+    def get_param(self,name):
+        return [par for par in self.model.params if name in par.name][0]
+
+    def get_name(self):
+        return self.model.name
+
+    def get_uID(self):
+        return self.model.uID
+
+    def get_type(self):
+        return self.model.type
+
