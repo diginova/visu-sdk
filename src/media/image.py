@@ -3,30 +3,30 @@
 import cv2
 import base64
 import numpy as np
+from visu.sdk.base.model import Image as ImageModel
 
 
 class Image:
-    def __init__(self):
-        self.image_type = ""
-        self.image = []
-
-    def get_img(self, inputs=None):
-        new = Image()
-        new.image = list((np.asarray(self.decode64(inputs.image.image_data[0])).astype(np.uint8)))
-        new.image_type = inputs.image.mime_type
+    @staticmethod
+    def get_images(data):
         list_obj = []
-        list_obj.append(new)
-        print(list_obj)
+        for img in data:
+            content=np.asarray(Image.decode64(img.content)).astype(np.uint8)
+            image = ImageModel(name=img.name,mime_type=img.mime_type,encoding=img.encoding,content=content)
+            list_obj.append(image)
         return list_obj
 
-    def encode64(self, image):
-        bin = cv2.imencode('.jpg', image)[1]
+    @staticmethod
+    def encode64(image,mime_type):
+        mime_type=mime_type.split("/")
+        bin = cv2.imencode("."+str(mime_type[1]), image)[1]
         data = str(base64.b64encode(bin), "utf-8")
         return data
 
-    def decode64(self, image_data):
-        jpg_original = base64.b64decode(image_data)
-        image = np.asarray(bytearray(jpg_original), dtype=np.uint8)
+    @staticmethod
+    def decode64( image_data):
+        b64_decoded_img = base64.b64decode(image_data)
+        image = np.asarray(bytearray(b64_decoded_img), dtype=np.uint8)
         img = cv2.imdecode(image, cv2.IMREAD_COLOR)
         img = np.asarray(img).astype(np.float32)
         return img
