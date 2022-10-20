@@ -50,7 +50,7 @@ class Image(Model):
     name: str
     mime_type: Literal["image/jpg","image/png","image/gif"]
     encoding: Literal["base64"]
-    content: Union[str,Array[float]]
+    content: Union[str,Array[numpy.float32]]
 
 
 class Output(Model):

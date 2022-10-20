@@ -11,7 +11,7 @@ class Image:
     def get_images(data):
         list_obj = []
         for img in data:
-            content=np.asarray(Image.decode64(img.content)).astype(np.uint8)
+            content=np.asarray(Image.decode64(img.content))
             image = ImageModel(name=img.name,mime_type=img.mime_type,encoding=img.encoding,content=content)
             list_obj.append(image)
         return list_obj
@@ -28,5 +28,4 @@ class Image:
         b64_decoded_img = base64.b64decode(image_data)
         image = np.asarray(bytearray(b64_decoded_img), dtype=np.uint8)
         img = cv2.imdecode(image, cv2.IMREAD_COLOR)
-        img = np.asarray(img).astype(np.float32)
         return img
