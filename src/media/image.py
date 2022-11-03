@@ -3,7 +3,7 @@
 import cv2
 import base64
 import numpy as np
-from visu.sdk.base.model import Image as ImageModel
+from sdks.visu.src.base.model import Image as ImageModel
 
 
 class Image:

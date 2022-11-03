@@ -12,3 +12,4 @@ class Capsule(ABC):
     @abstractmethod
     def run(self):
         return []
+

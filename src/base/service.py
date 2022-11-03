@@ -1,5 +1,5 @@
 import json
-from visu.sdk.base.request import Request
+from sdks.visu.src.base.request import Request
 
 
 class Service():
