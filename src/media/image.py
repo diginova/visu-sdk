@@ -17,6 +17,12 @@ class Image:
         return list_obj
 
     @staticmethod
+    def get_template(data):
+        for img in data:
+            template = np.asarray(Image.decode64(img.template))
+        return template
+
+    @staticmethod
     def encode64(image,mime_type):
         mime_type=mime_type.split("/")
         bin = cv2.imencode("."+str(mime_type[1]), image)[1]
