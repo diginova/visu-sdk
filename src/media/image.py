@@ -11,16 +11,11 @@ class Image:
     def get_images(data):
         list_obj = []
         for img in data:
-            content=np.asarray(Image.decode64(img.content))
+            content = np.asarray(Image.decode64(img.content))
             image = ImageModel(name=img.name,mime_type=img.mime_type,encoding=img.encoding,content=content)
             list_obj.append(image)
         return list_obj
 
-    @staticmethod
-    def get_template(data):
-        for img in data:
-            template = np.asarray(Image.decode64(img.template))
-        return template
 
     @staticmethod
     def encode64(image,mime_type):

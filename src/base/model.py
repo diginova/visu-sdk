@@ -50,14 +50,9 @@ class Image(Model):
     name: str
     mime_type: Literal["image/jpg","image/png","image/gif"]
     encoding: Literal["base64"]
-    template: Optional[Union[ Array[numpy.float32],str]]
     content: Union[str,Array[numpy.float32]]
 
-class BBOX_image(Model):
-    name: str
-    mime_type: Literal["image/jpg", "image/png", "image/gif"]
-    encoding: Literal["base64"]
-    content: Union[str, Array[numpy.float32]]
+class Image_Info(Model):
     bbox: List
     count: Optional[int]
 
@@ -65,7 +60,7 @@ class BBOX_image(Model):
 class Output(Model):
     name: str
     type: Literal["image", "image_list"]
-    data: Union[List[BBOX_image],List[Image]]
+    data: Union[List[Image_Info],List[Image]]
 
 
 class ResponseModel(Model):
