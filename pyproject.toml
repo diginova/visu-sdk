@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "visu-sdk"
+version = "0.0.1"
+dependencies = [
+    "pydantic",
+    'importlib-metadata; python_version>="3.6"',
+]
+[tool.setuptools]
+package-dir = {"visu.sdk" = "src"}
+packages = [
+    "visu.sdk",
+    "visu.sdk.base",
+    "visu.sdk.helper",
+    "visu.sdk.media"
+]
