@@ -31,7 +31,7 @@ class Model(BaseModel):
 class Input(Model):
     name: str
     type: str
-    data: str
+    data: list
 class Param(Model):
     name: str
     value: str
@@ -40,8 +40,8 @@ class RequestModel(Model):
     type: str
     name: str
     uID: str
-    params: str
-    inputs: str
+    params: list
+    inputs: list
     def new(cls, *args, **kwargs):
         cls.new = super().new
         return super().construct()
@@ -52,15 +52,16 @@ class Image(Model):
     encoding: Literal["base64"]
     content: Union[str,Array[numpy.float32]]
 
-class Image_Info(Model):
-    bbox: List
-    count: Optional[int]
-
+class BBox(Model):
+    x: int
+    y: int
+    width: int
+    height: int
 
 class Output(Model):
     name: str
-    type: Literal["image", "image_list"]
-    data: Union[List[Image_Info],List[Image]]
+    type: str
+    data: Union[List[Image],List[BBox],int]
 
 
 class ResponseModel(Model):
@@ -73,5 +74,10 @@ class ResponseModel(Model):
         cls.new = super().new
         return super().construct()
 
-    
+class Requests(Model):
+    requests : List[RequestModel]
+
+    def new(cls, *args, **kwargs):
+        cls.new = super().new
+        return super().construct()
     
