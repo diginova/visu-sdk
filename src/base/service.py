@@ -14,8 +14,10 @@ class Service():
         for req in self.data["requests"]:
             component = req["name"]
             req = Request(req)
+
             if self.load.get(component):
                 res.append(self.services[component](req, self.load[component]).run())
+
             else:
                 res.append(self.services[component](req).run())
         return {"responses":res}
@@ -27,6 +29,6 @@ class Bootstrap():
     def bootStrap(self):
         bootStrap= {}
         for key, value in self.services.items():
-            if key=="facedetection" or key=="objectdetection":
+            if key=="facedetection" or key=="objectdetection" or key=="aifacedetection":
                 bootStrap[key] = value.bootstrap()
         return bootStrap
