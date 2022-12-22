@@ -29,6 +29,5 @@ class Bootstrap():
     def bootStrap(self):
         bootStrap= {}
         for key, value in self.services.items():
-            if key=="facedetection" or key=="objectdetection" or key=="aifacedetection" or key=="aifacerecognition":
-                bootStrap[key] = value.bootstrap()
+            bootStrap[key] = value.bootstrap()
         return bootStrap
