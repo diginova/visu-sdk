@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-from visu.sdk.media.image import Image
+from sdks.visu.src.media.image import Image
 
 
 class Request:
